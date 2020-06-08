@@ -2,21 +2,17 @@ package com.github.homework.program.domain;
 
 
 import com.github.homework.theme.domain.Theme;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
+
+import javax.persistence.*;
+
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+
+import java.util.List;
 
 @Entity
 @Getter
@@ -38,24 +34,27 @@ public class Program {
     @Lob
     private String introductionDetail;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "theme_id")
-    private Theme theme;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "program_theme",
+            joinColumns = @JoinColumn(name = "id"),
+            inverseJoinColumns = @JoinColumn(name = "theme_id"))
+    private List<Theme> themes;
 
     @Builder
-    public Program(String name, String introduction, String introductionDetail, String region, Theme theme) {
+    public Program(String name, String introduction, String introductionDetail, String region, List<Theme> themes) {
         this.name = name;
         this.introduction = introduction;
         this.introductionDetail = introductionDetail;
         this.region = region;
-        this.theme = theme;
+        this.themes = themes;
     }
 
-    public void updateProgram(String name, String introduction, String introductionDetail, String region, Theme theme) {
+    public void updateProgram(String name, String introduction, String introductionDetail, String region, List<Theme> themes) {
         this.name = name;
         this.introduction = introduction;
         this.introductionDetail = introductionDetail;
         this.region = region;
-        this.theme = theme;
+        this.themes = themes;
     }
+
 }

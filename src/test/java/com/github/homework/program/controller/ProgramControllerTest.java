@@ -169,13 +169,13 @@ public class ProgramControllerTest extends BaseControllerTest {
             .andExpect(status().isNotFound());
     }
 
-    private Program givenProgram(Theme theme) {
+    private Program givenProgram(Theme themes) {
         Program program = Program.builder().name("여수 10미 먹거리")
             .region("전라남도 여수시")
             .introduction("여수시 일대 게장백반, 돌산갓김치등")
             .introductionDetail(
                 "여행자와 현지인이 꼽은 최고의 먹거리 여행지' 에서 대한민국 229개 지방자치단체 중 여수시가 1위에 선정되어 식도락 여행에 최적화된 프로그램")
-            .theme(theme)
+            .themes(themes)
             .build();
         return this.programRepository.save(program);
     }

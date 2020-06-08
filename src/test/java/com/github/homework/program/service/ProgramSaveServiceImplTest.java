@@ -52,7 +52,7 @@ public class ProgramSaveServiceImplTest {
         then(argumentCaptor.getValue().getIntroduction()).isEqualTo("여수시 일대 게장백반, 돌산갓김치등");
         then(argumentCaptor.getValue().getIntroductionDetail()).isEqualTo(
             "여행자와 현지인이 꼽은 최고의 먹거리 여행지' 에서 대한민국 229개 지방자치단체 중 여수시가 1위에 선정되어 식도락 여행에 최적화된 프로그램");
-        then(argumentCaptor.getValue().getTheme().getName()).isEqualTo("식도락여행");
+        then(argumentCaptor.getValue().getThemes()).isEqualTo("식도락여행");
 
     }
 

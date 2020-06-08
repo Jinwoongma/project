@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ProgramSaveServiceImpl implements ProgramSaveService {
@@ -20,12 +22,12 @@ public class ProgramSaveServiceImpl implements ProgramSaveService {
     @Override
     @Transactional
     public void saveProgram(ProgramSaveDto programSaveDto) {
-        Theme theme = this.themeService.getOrSaveTheme(programSaveDto.getThemeName());
+        List<Theme> themes = themeService.saveThemes(programSaveDto.getThemeName());
         Program program = Program.builder()
             .name(programSaveDto.getName()).introduction(programSaveDto.getIntroduction())
             .introductionDetail(programSaveDto.getIntroductionDetail())
             .region(programSaveDto.getRegion())
-            .theme(theme).build();
+            .themes(themes).build();
         this.programRepository.save(program);
     }
 
@@ -35,12 +37,12 @@ public class ProgramSaveServiceImpl implements ProgramSaveService {
     public void updateProgram(ProgramSaveDto programSaveDto) throws ProgramNotFoundException {
         Program program = this.programRepository.findById(programSaveDto.getId()).orElseThrow(
             ProgramNotFoundException::new);
-        Theme theme = this.themeService.getOrSaveTheme(programSaveDto.getThemeName());
+        List<Theme> themes = themeService.saveThemes(programSaveDto.getThemeName());
         program.updateProgram(programSaveDto.getName(),
             programSaveDto.getIntroduction(),
             programSaveDto.getIntroductionDetail(),
             programSaveDto.getRegion(),
-            theme
+            themes
         );
     }
 

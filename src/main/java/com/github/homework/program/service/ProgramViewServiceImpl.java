@@ -23,7 +23,7 @@ public class ProgramViewServiceImpl implements ProgramViewService {
                 p.getIntroduction(),
                 p.getIntroductionDetail(),
                 p.getRegion(),
-                p.getTheme().getName()
+                p.getThemes()
             )
         );
     }

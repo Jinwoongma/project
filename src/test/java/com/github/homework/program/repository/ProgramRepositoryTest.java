@@ -6,7 +6,12 @@ import com.github.homework.program.domain.Program;
 import com.github.homework.program.model.ProgramViewDto;
 import com.github.homework.theme.domain.Theme;
 import com.github.homework.theme.repository.ThemeRepository;
+import com.github.homework.theme.service.ThemeService;
+
+import java.util.List;
 import java.util.stream.IntStream;
+
+import com.github.homework.theme.service.ThemeService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 class ProgramRepositoryTest {
 
+    private  ThemeService themeService;
     @Autowired
     private ProgramRepository programRepository;
     @Autowired
@@ -32,6 +38,7 @@ class ProgramRepositoryTest {
     public void findByPageTest() {
         //given
         Theme theme = new Theme("theme");
+        List<Theme> themes = themeService.saveThemes("theme");
         testEntityManager.persist(theme);
 
         IntStream.range(0, 2).forEach(i -> {
@@ -40,7 +47,7 @@ class ProgramRepositoryTest {
                     .introduction("introduction")
                     .introductionDetail("introductionDetail")
                     .region("region")
-                    .theme(theme)
+                    .themes(themes)
                     .build();
                 testEntityManager.persist(program);
             }
@@ -56,7 +63,7 @@ class ProgramRepositoryTest {
                 then(programViewDto.getIntroduction()).isEqualTo("introduction");
                 then(programViewDto.getIntroductionDetail()).isEqualTo("introductionDetail");
                 then(programViewDto.getRegion()).isEqualTo("region");
-                then(programViewDto.getThemeName()).isEqualTo("theme");
+                then(programViewDto.getThemes()).isEqualTo("theme");
             }
         );
 
